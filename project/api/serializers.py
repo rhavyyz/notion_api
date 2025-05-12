@@ -1,10 +1,73 @@
 from rest_framework import serializers
 
-from project.api.models import Post
+from project.api.models import Comment, Post
 
 
 """
 
+    COMMENT SERIALIZERS
+
+    -- username
+    -- post  
+    -- comment
+    -- content
+    -- created_datetime
+    -- like_qtd
+
+"""
+
+class CommentPostSelectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'created_datetime', 'username', 'post', 'like_qtd']
+
+    def save(self):
+        raise Exception("This comment serializer is only ment to reading operations") 
+    def update(self, instance, validated_data):
+        raise Exception("This comment serializer is only ment to reading operations")
+    def create(self,validated_data):
+        raise Exception("This comment serializer is only ment to reading operations")
+
+
+
+class CommentCommentSelectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'created_datetime', 'username', 'comment', 'like_qtd']
+    def save(self):
+        raise Exception("This comment serializer is only ment to reading operations") 
+    def update(self, instance, validated_data):
+        raise Exception("This comment serializer is only ment to reading operations")
+    def create(self,validated_data):
+        raise Exception("This comment serializer is only ment to reading operations")
+
+
+
+class CommentPostCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields=['username', 'post', 'content']
+    
+    def update(self, instance, validated_data):
+        raise Exception("This comment serializer is only ment to create comments")
+    def create(self,validated_data):
+        print(validated_data)
+        return Comment.objects.create(**validated_data)
+    
+class CommentCommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields=['username', 'comment', 'content']
+    
+    def update(self, instance, validated_data):
+        raise Exception("This comment serializer is only ment to create comments")
+    def create(self,validated_data):
+        print(validated_data)
+        return Comment.objects.create(**validated_data)
+    
+
+"""
+    
     POST SERIALIZERS
     
     -- id

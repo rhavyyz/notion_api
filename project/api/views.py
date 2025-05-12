@@ -3,12 +3,61 @@ from django.shortcuts import render
 from rest_framework.views import APIView, Response, status
 from rest_framework.decorators import api_view
 
-from project.api.models import Post
-from project.api.serializers import PostCreateSerializer, PostSelectSerializer, PostUpdateSerializer
+from project.api.models import Comment, Post
+from project.api.serializers import CommentPostCreateSerializer, CommentPostSelectSerializer, PostCreateSerializer, PostSelectSerializer, PostUpdateSerializer, CommentCommentSelectSerializer, CommentCommentCreateSerializer
 
 # Create your views here.
 
-#@api_view(['GET'])
+"""
+
+    COMMENT VIEWS
+
+"""
+
+class CommentPostCreateSelect(APIView):
+    def get(self, _, id):
+        data = Comment.objects.filter(post__id=id)
+        return Response(CommentPostSelectSerializer(data, many = True).data)
+
+    def post(self, request, id):
+        if 'post' in request.data:
+            del request.data['post']
+        serializer = CommentPostCreateSerializer(data = {**request.data, "post":id})
+        serializer.is_valid(raise_exception = True)
+        instance = CommentPostSelectSerializer(serializer.save()).data
+        
+        return Response(instance, status=status.HTTP_201_CREATED)
+
+class CommentCommentCreateSelect(APIView):
+    def get(self, _, id):
+        data = Comment.objects.filter(comment__id=id)
+        return Response(CommentCommentSelectSerializer(data, many = True).data)
+
+    def post(self, request, id):
+        if 'comment' in request.data:
+            del request.data['comment']
+        serializer = CommentCommentCreateSerializer(data = {**request.data, "comment":id})
+        serializer.is_valid(raise_exception = True)
+        instance = CommentCommentSelectSerializer(serializer.save()).data
+        
+        return Response(instance, status=status.HTTP_201_CREATED)
+
+@api_view(['DELETE'])
+def comment_delete(_, id):
+    instance = Comment.objects.filter(id=id)
+    
+    if len(instance) == 0:
+        return Response("No Content", status=status.HTTP_204_NO_CONTENT)
+    
+    instance.delete()
+    return Response("Ok")
+
+"""
+
+    POST VIEWS
+
+"""
+
 class PostCreateSelect(APIView):
     def post(self, request):
         serializer = PostCreateSerializer(data = request.data)        

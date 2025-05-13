@@ -17,7 +17,7 @@ class LikeCommentCreateSerializer(serializers.ModelSerializer):
         model = Like
         fields = ['comment', 'username']
     def update(self, instance, validated_data):
-        raise Exception("This like serializers is only ment to create operations")
+        raise Exception("This like serializers is only meant to create operations")
     def create(self, validated_data):
         return Like.objects.create(**validated_data)
 
@@ -26,7 +26,7 @@ class LikePostCreateSerializer(serializers.ModelSerializer):
         model = Like
         fields = ['post', 'username']
     def update(self, instance, validated_data):
-        raise Exception("This like serializers is only ment to create operations")
+        raise Exception("This like serializers is only meant to create operations")
     def create(self, validated_data):
         return Like.objects.create(**validated_data)
 
@@ -49,11 +49,11 @@ class CommentPostSelectSerializer(serializers.ModelSerializer):
         fields = ['id', 'content', 'created_datetime', 'username', 'post', 'like_qtd']
 
     def save(self):
-        raise Exception("This comment serializer is only ment to reading operations") 
+        raise Exception("This comment serializer is only meant to reading operations") 
     def update(self, instance, validated_data):
-        raise Exception("This comment serializer is only ment to reading operations")
+        raise Exception("This comment serializer is only meant to reading operations")
     def create(self,validated_data):
-        raise Exception("This comment serializer is only ment to reading operations")
+        raise Exception("This comment serializer is only meant to reading operations")
 
 
 
@@ -62,11 +62,11 @@ class CommentCommentSelectSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'content', 'created_datetime', 'username', 'comment', 'like_qtd']
     def save(self):
-        raise Exception("This comment serializer is only ment to reading operations") 
+        raise Exception("This comment serializer is only meant to reading operations") 
     def update(self, instance, validated_data):
-        raise Exception("This comment serializer is only ment to reading operations")
+        raise Exception("This comment serializer is only meant to reading operations")
     def create(self,validated_data):
-        raise Exception("This comment serializer is only ment to reading operations")
+        raise Exception("This comment serializer is only meant to reading operations")
 
 
 
@@ -76,7 +76,7 @@ class CommentPostCreateSerializer(serializers.ModelSerializer):
         fields=['username', 'post', 'content']
     
     def update(self, instance, validated_data):
-        raise Exception("This comment serializer is only ment to create comments")
+        raise Exception("This comment serializer is only meant to create comments")
     def create(self,validated_data):
         print(validated_data)
         return Comment.objects.create(**validated_data)
@@ -87,7 +87,7 @@ class CommentCommentCreateSerializer(serializers.ModelSerializer):
         fields=['username', 'comment', 'content']
     
     def update(self, instance, validated_data):
-        raise Exception("This comment serializer is only ment to create comments")
+        raise Exception("This comment serializer is only meant to create comments")
     def create(self,validated_data):
         print(validated_data)
         return Comment.objects.create(**validated_data)
@@ -111,11 +111,11 @@ class PostSelectSerializer(serializers.ModelSerializer):
         fields=['id','username', 'title', 'content', 'created_datetime', 'like_qtd']
 
     def save(self):
-        raise Exception("This post serializer is only ment to reading operations") 
+        raise Exception("This post serializer is only meant to reading operations") 
     def update(self, instance, validated_data):
-        raise Exception("This post serializer is only ment to reading operations")
+        raise Exception("This post serializer is only meant to reading operations")
     def create(self,validated_data):
-        raise Exception("This post serializer is only ment to reading operations")
+        raise Exception("This post serializer is only meant to reading operations")
 
 class PostUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -123,7 +123,7 @@ class PostUpdateSerializer(serializers.ModelSerializer):
         fields=['title', 'content']
 
     def create(self,validated_data):
-        raise Exception("This post serializer is only ment to update posts")
+        raise Exception("This post serializer is only meant to update posts")
     def update(self, instance : Post, validated_data):
         instance.title = validated_data['title']
         instance.content = validated_data['content']
@@ -137,7 +137,7 @@ class PostCreateSerializer(serializers.ModelSerializer):
         fields=['username','title', 'content']
 
     def update(self, instance, validated_data):
-        raise Exception("This post serializer is only ment to create posts")
+        raise Exception("This post serializer is only meant to create posts")
     def create(self,validated_data):
         return Post.objects.create(**validated_data)
     

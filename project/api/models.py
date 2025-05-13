@@ -45,6 +45,11 @@ class Comment(models.Model):
         if self.comment is not None and self.post is not None:
             raise ValidationError("Comment cannot reference a other comment and a post at the same time")
 
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.clean()
+        return super().save(*args, force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
+
+
 class Like(models.Model):
     post = models.ForeignKey(
                              Post, 
@@ -69,5 +74,8 @@ class Like(models.Model):
     
     class Meta:
         unique_together = [['post', 'username'], ['comment', 'username']]
-
+    
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.clean()
+        return super().save(*args, force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 

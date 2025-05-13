@@ -3,10 +3,53 @@ from django.shortcuts import render
 from rest_framework.views import APIView, Response, status
 from rest_framework.decorators import api_view
 
-from project.api.models import Comment, Post
-from project.api.serializers import CommentPostCreateSerializer, CommentPostSelectSerializer, PostCreateSerializer, PostSelectSerializer, PostUpdateSerializer, CommentCommentSelectSerializer, CommentCommentCreateSerializer
+from project.api.models import Comment, Post, Like
+from project.api.serializers import CommentPostCreateSerializer, CommentPostSelectSerializer, LikePostCreateSerializer, PostCreateSerializer, PostSelectSerializer, PostUpdateSerializer, CommentCommentSelectSerializer, CommentCommentCreateSerializer, LikeCommentCreateSerializer
 
 # Create your views here.
+
+"""
+
+    LIKE VIEWS
+
+"""
+
+class LikePostCreateDelete(APIView):
+    def post(self, request, id, username):
+        serializer = LikePostCreateSerializer(data = {'post': id, 'username': username})
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+
+        return Response("Created", status=status.HTTP_201_CREATED)
+    def delete(self, request, id, username):
+        instance = Like.objects.filter(post__id=id, username=username)
+        if len(instance) == 0:
+            return Response("No Content", status=status.HTTP_204_NO_CONTENT)
+
+        instance.delete()
+
+        return Response("Ok")
+
+class LikeCommentCreateDelete(APIView):
+    def post(self, request, id, username):
+        serializer = LikeCommentCreateSerializer(data = {'comment': id, 'username': username})
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+
+        return Response("Created", status=status.HTTP_201_CREATED)
+    def delete(self, request, id, username):
+        instance = Like.objects.filter(comment__id=id, username=username)
+        if len(instance) == 0:
+            return Response("No Content", status=status.HTTP_204_NO_CONTENT)
+
+        instance.delete()
+
+        return Response("Ok")
+
+
+
 
 """
 

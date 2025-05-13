@@ -33,6 +33,7 @@ class Comment(models.Model):
  
     @property
     def like_qtd(self):
+        print(self.id)
         return Like.objects.filter(comment__id=self.id).count()
 
 

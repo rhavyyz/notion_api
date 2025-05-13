@@ -1,7 +1,34 @@
 from rest_framework import serializers
 
-from project.api.models import Comment, Post
+from project.api.models import Comment, Like, Post
 
+"""
+
+    LIKE SERIALIZERS
+
+    -- username
+    -- post
+    -- comment
+
+"""
+
+class LikeCommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ['comment', 'username']
+    def update(self, instance, validated_data):
+        raise Exception("This like serializers is only ment to create operations")
+    def create(self, validated_data):
+        return Like.objects.create(**validated_data)
+
+class LikePostCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ['post', 'username']
+    def update(self, instance, validated_data):
+        raise Exception("This like serializers is only ment to create operations")
+    def create(self, validated_data):
+        return Like.objects.create(**validated_data)
 
 """
 
@@ -81,7 +108,7 @@ class CommentCommentCreateSerializer(serializers.ModelSerializer):
 class PostSelectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields=['id','username', 'title', 'content', 'created_datetime']
+        fields=['id','username', 'title', 'content', 'created_datetime', 'like_qtd']
 
     def save(self):
         raise Exception("This post serializer is only ment to reading operations") 

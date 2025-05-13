@@ -23,7 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('careers/', views.PostCreateSelect.as_view()),
     path('careers/<int:id>/', views.PostDeleteUpdate.as_view()),
+    path('careers/<int:id>/likes/<str:username>/', views.LikePostCreateDelete.as_view()),
     path('careers/<int:id>/comments/', views.CommentPostCreateSelect.as_view()),
     path('comments/<int:id>/comments/', views.CommentCommentCreateSelect.as_view()),
-    path('comments/<int:id>/', views.comment_delete)
+    path('comments/<int:id>/', views.comment_delete),
+    path('comments/<int:id>/likes/<str:username>/', views.LikeCommentCreateDelete.as_view())
 ]

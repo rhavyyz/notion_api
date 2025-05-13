@@ -1,4 +1,6 @@
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.html import normalize_newlines
 
 # Create your models here.
 
@@ -37,6 +39,12 @@ class Comment(models.Model):
         return Like.objects.filter(comment__id=self.id).count()
 
 
+    def clean(self):
+        if self.comment is None and self.post is None:
+            raise ValidationError("Comment require a reference to a comment or a post")
+        if self.comment is not None and self.post is not None:
+            raise ValidationError("Comment cannot reference a other comment and a post at the same time")
+
 class Like(models.Model):
     post = models.ForeignKey(
                              Post, 
@@ -53,5 +61,13 @@ class Like(models.Model):
 
     username = models.CharField(max_length=100)
 
+    def clean(self):
+        if self.comment is None and self.post is None:
+            raise ValidationError("Like require a reference to a comment or a post")
+        if self.comment is not None and self.post is not None:
+            raise ValidationError("Like cannot reference a other comment and a post at the same time")
+    
     class Meta:
         unique_together = [['post', 'username'], ['comment', 'username']]
+
+
